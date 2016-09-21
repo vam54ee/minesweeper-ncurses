@@ -127,7 +127,8 @@ class game {
     bool gameCompleted() {
       for (short i = 0; i < m__; i++) {
         for (short j = 0; j < nii; j++) {
-          if (minesArray(i, j) == MINEFALSE && statusArray(i, j) == 'U') return false;
+          char currentStatus = statusArray(i, j);
+          if (minesArray(i, j) == MINEFALSE &&  currentStatus == 'U' || currentStatus == 'F' || currentStatus == 'Q') return false;
         }
       }
       return true;
@@ -140,8 +141,8 @@ class game {
           if (minesArray(i, j) == MINETRUE) {
             char newState = changeState(i, j);
             if (newState == 'O') {
-              // renderGrid();
-              // refresh();
+              renderGrid();
+              refresh();
             }
           }
         }
@@ -180,7 +181,7 @@ class game {
         initialClick = true;
       }
       if (leftClick && statusArray(x, y) != 'U') return '\0';
-      if (!leftClick && (statusArray(x, y) != 'U' || statusArray(x, y) != 'F' || statusArray(x, y) != 'Q')) return '\0';
+      if (!leftClick && (statusArray(x, y) != 'U' && statusArray(x, y) != 'F' && statusArray(x, y) != 'Q')) return '\0';
       if (!leftClick) {
         return statusArray(x, y) = statusArray(x, y) == 'U' ? 'F' : statusArray(x, y) == 'F' ? 'Q' : 'U' ;
       }
@@ -217,7 +218,10 @@ class game {
 
 
     void renderBox(int x, int y) {
-      if (statusArray(x, y) == 'U') return;
+      if (statusArray(x, y) == 'U') {
+        mvwaddch(stdscr, 2 * y + 1, 4 * x + 2, ' ');
+        return;
+      }
       mvwaddch(stdscr, 2 * y + 1, 4 * x + 2, statusArray(x, y));
     }
 
@@ -288,7 +292,7 @@ int main() {
     else continue;
     gameInstance.renderGrid();
     refresh();
-    if (gameInstance.gameWon || gameInstance.gameLost) break;
+    if (gameInstance.gameWon || gameInstance.gameLost) mvaddstr(50, 0, gameInstance.gameWon ? "won" : "lost");
   }
 
   endwin();
