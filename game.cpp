@@ -274,17 +274,17 @@ int main() {
       if(getmouse(&event) == OK) {
         if (event.x / 4 >= gameInstance.m__ || event.x % 4 == 0) continue;
         if (event.y / 2 >= gameInstance.nii || event.y % 2 == 0) continue;
-        stringstream ss;
-        ss << event.x;
-        ss << "\t";
-        ss << event.y;
-        ss << "\t";
-        ss << event.z;
+        // stringstream ss;
+        // ss << event.x;
+        // ss << "\t";
+        // ss << event.y;
+        // ss << "\t";
+        // ss << event.z;
         if(event.bstate & BUTTON1_CLICKED) {
-          mvaddstr(50, 0, ss.str().c_str());
+          // mvaddstr(50, 0, ss.str().c_str());
           gameInstance.resolveInput(event.x / 4, event.y / 2, true);
         } else if (event.bstate & BUTTON1_DOUBLE_CLICKED) {
-          mvaddstr(50, 0, ss.str().c_str());
+          // mvaddstr(50, 0, ss.str().c_str());
           gameInstance.resolveInput(event.x / 4, event.y / 2, false);
         }
       }
